@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,15 +24,17 @@ public class EzToast {
         View root = LayoutInflater.from(context).inflate(R.layout.layout_toast, null);
         Drawable drawableFrame;
 
-        boolean shouldTint = true;
-        if (shouldTint){
+        boolean shouldTint = false;
+        if (shouldTint) {
             drawableFrame = ToastUtils.tint9PatchDrawableFrame(context, Color.parseColor("#7f00ffff"));
+        } else {
+            drawableFrame = ToastUtils.getDrawable(context, R.drawable.shape_toast_background);
         }
-        else{
-            drawableFrame = ToastUtils.getDrawable(context, R.drawable.toast_frame);
-        }
+        ToastUtils.tintDrawable(drawableFrame, Color.parseColor("#ff0000"));
         ToastUtils.setBackground(root, drawableFrame);
+        ImageView imgIcon = root.findViewById(R.id.img_icon);
         TextView tvMessage = root.findViewById(R.id.tv_message);
+        imgIcon.setImageDrawable(ToastUtils.getDrawable(context, R.drawable.icon_warn));
         tvMessage.setText(message);
 
 
