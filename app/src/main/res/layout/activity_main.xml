@@ -35,4 +35,29 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <Button
+        android:id="@+id/btn_info"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="INFO"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <Button
+        android:id="@+id/btn_warn"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="WARN"
+        app:layout_constraintTop_toBottomOf="@id/btn_info"/>
+    <Button
+        android:id="@+id/btn_success"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="success"
+        app:layout_constraintTop_toBottomOf="@id/btn_warn"/>
+    <Button
+        android:id="@+id/btn_error"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="error"
+        app:layout_constraintTop_toBottomOf="@id/btn_success"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

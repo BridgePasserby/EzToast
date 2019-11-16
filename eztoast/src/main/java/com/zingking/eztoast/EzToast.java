@@ -9,6 +9,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.DrawableRes;
+
 /**
  * Copyright (c) 2019, Z.kai All rights reserved.
  *
@@ -17,28 +19,47 @@ import android.widget.Toast;
  * @description
  */
 public class EzToast {
-    private Toast lastToast;
+    private static Toast lastToast;
 
-    public static Toast createToast(Context context, CharSequence message, int duration) {
+    public static Toast info(Context context, CharSequence message, int duration) {
+        return createToast(context, R.drawable.icon_info, message, duration, false, Color.parseColor("#757575"));
+    }
+
+    public static Toast success(Context context, CharSequence message, int duration) {
+        return createToast(context, R.drawable.icon_success, message, duration, false, Color.parseColor("#2e7d32"));
+    }
+
+    public static Toast warn(Context context, CharSequence message, int duration) {
+        return createToast(context, R.drawable.icon_warn, message, duration, false, Color.parseColor("#FFFF9800"));
+    }
+
+    public static Toast error(Context context, CharSequence message, int duration) {
+        return createToast(context, R.drawable.icon_error, message, duration, false, Color.parseColor("#c30000"));
+    }
+
+    public static Toast createToast(Context context,
+                                    @DrawableRes int icon,
+                                    CharSequence message,
+                                    int duration,
+                                    boolean isQueue,
+                                    int bgColor) {
         Toast toast = Toast.makeText(context, "", duration);
         View root = LayoutInflater.from(context).inflate(R.layout.layout_toast, null);
-        Drawable drawableFrame;
-
-        boolean shouldTint = false;
-        if (shouldTint) {
-            drawableFrame = ToastUtils.tint9PatchDrawableFrame(context, Color.parseColor("#7f00ffff"));
-        } else {
-            drawableFrame = ToastUtils.getDrawable(context, R.drawable.shape_toast_background);
-        }
-        ToastUtils.tintDrawable(drawableFrame, Color.parseColor("#ff0000"));
+        Drawable drawableFrame = ToastUtils.getDrawable(context, R.drawable.shape_toast_background);
+        ToastUtils.tintDrawable(drawableFrame, bgColor);
         ToastUtils.setBackground(root, drawableFrame);
+
         ImageView imgIcon = root.findViewById(R.id.img_icon);
         TextView tvMessage = root.findViewById(R.id.tv_message);
-        imgIcon.setImageDrawable(ToastUtils.getDrawable(context, R.drawable.icon_warn));
+
+        imgIcon.setImageDrawable(ToastUtils.getDrawable(context, icon));
         tvMessage.setText(message);
 
-
         toast.setView(root);
+        if (!isQueue && lastToast != null) {
+            lastToast.cancel();
+        }
+        lastToast = toast;
         return toast;
     }
 }
