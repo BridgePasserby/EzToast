@@ -23,10 +23,10 @@ public class EzToast {
     public static final int TOAST_LONG = Toast.LENGTH_LONG;
     public static final int TOAST_SHORT = Toast.LENGTH_SHORT;
     private static Toast lastToast;
-    private static boolean isTintIcon = true;// icon的颜色是否跟随文本颜色，默认白色
+    private static boolean isTintIcon = true; // icon的颜色是否跟随文本颜色，默认白色
     private static boolean isQueue = true; // 是否是队列等待显示
     @DrawableRes
-    private static int background = R.drawable.shape_toast_background_transparent;
+    private static int background = R.drawable.shape_toast_background_transparent; // toast的背景
     @LayoutRes
     private static int layout = R.layout.layout_toast; // 自定义布局的layout文件，文件中必须含有img_icon和tv_message两个id
 
@@ -114,7 +114,6 @@ public class EzToast {
                 ToastUtils.getColor(context, R.color.colorDefaultText));
     }
 
-
     /**
      * 自定义toast
      *
@@ -134,6 +133,34 @@ public class EzToast {
                                     @ColorInt int bgColor,
                                     boolean withIcon,
                                     @ColorInt int textColor) {
+        return createToast(context, icon, message, duration, bgColor, withIcon, textColor, layout, background, isTintIcon, isQueue);
+    }
+
+    /**
+     * @param context    上下文
+     * @param icon       icon的资源文件
+     * @param message    显示的消息
+     * @param duration   显示的时长 @see{@link #TOAST_LONG} {@link #TOAST_SHORT}
+     * @param bgColor    toast的背景色
+     * @param withIcon   是否显示icon
+     * @param textColor  文本颜色
+     * @param layout     自定义布局的layout文件，文件中必须含有img_icon和tv_message两个id
+     * @param background toast的背景
+     * @param isTintIcon icon的颜色是否跟随文本颜色，默认白色
+     * @param isQueue    是否是队列等待显示
+     * @return
+     */
+    public static Toast createToast(Context context,
+                                    @DrawableRes int icon,
+                                    CharSequence message,
+                                    int duration,
+                                    @ColorInt int bgColor,
+                                    boolean withIcon,
+                                    @ColorInt int textColor,
+                                    @LayoutRes int layout,
+                                    @DrawableRes int background,
+                                    boolean isTintIcon,
+                                    boolean isQueue) {
         Toast toast = Toast.makeText(context, "", duration);
         View root = LayoutInflater.from(context).inflate(layout, null);
         Drawable drawableBackground = ToastUtils.getDrawable(context, background);
