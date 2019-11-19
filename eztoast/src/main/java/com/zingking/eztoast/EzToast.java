@@ -2,6 +2,7 @@ package com.zingking.eztoast;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -20,15 +21,22 @@ import androidx.annotation.LayoutRes;
  * @description
  */
 public class EzToast {
+    private static final boolean DEFAULT_TINT_ICON = true; // icon的颜色是否跟随文本颜色，默认白色
+    private static final boolean DEFAULT_QUEUE = true; // 是否是队列等待显示
+    private static final int DEFAULT_BACKGROUND = R.drawable.shape_toast_background; // toast的背景
+    private static int DEFAULT_LAYOUT = R.layout.layout_toast; // 自定义布局的layout文件，文件中必须含有img_icon和tv_message两个id
+    private static int DEFAULT_TEXT_SIZE = 15; // 默认文字大小 sp
+
     public static final int TOAST_LONG = Toast.LENGTH_LONG;
     public static final int TOAST_SHORT = Toast.LENGTH_SHORT;
     private static Toast lastToast;
-    private static boolean isTintIcon = true; // icon的颜色是否跟随文本颜色，默认白色
-    private static boolean isQueue = true; // 是否是队列等待显示
+    private static boolean isTintIcon = DEFAULT_TINT_ICON;
+    private static boolean isQueue = DEFAULT_QUEUE;
+    private static int textSize = DEFAULT_TEXT_SIZE;
     @DrawableRes
-    private static int background = R.drawable.shape_toast_background_transparent; // toast的背景
+    private static int background = DEFAULT_BACKGROUND;
     @LayoutRes
-    private static int layout = R.layout.layout_toast; // 自定义布局的layout文件，文件中必须含有img_icon和tv_message两个id
+    private static int layout = DEFAULT_LAYOUT;
 
     public static Toast normal(Context context, CharSequence message) {
         return normal(context, TOAST_SHORT, message);
@@ -181,6 +189,8 @@ public class EzToast {
 
         TextView tvMessage = root.findViewById(R.id.tv_message);
         tvMessage.setText(message);
+        tvMessage.setTextColor(textColor);
+        tvMessage.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSize);
 
         toast.setView(root);
         if (!isQueue && lastToast != null) {
@@ -188,5 +198,65 @@ public class EzToast {
         }
         lastToast = toast;
         return toast;
+    }
+
+    public static class Config {
+        private static Config INSTANCE = new Config();
+        private boolean isTintIcon = DEFAULT_TINT_ICON; // icon的颜色是否跟随文本颜色，默认白色
+        private boolean isQueue = DEFAULT_QUEUE; // 是否是队列等待显示
+        private int textSize = DEFAULT_TEXT_SIZE;
+        @DrawableRes
+        private int background = DEFAULT_BACKGROUND; // toast的背景
+        @LayoutRes
+        private int layout = DEFAULT_LAYOUT; // 自定义布局的layout文件，文件中必须含有img_icon和tv_message两个id
+
+        private Config() {
+        }
+
+        public static Config getInstance() {
+            return INSTANCE;
+        }
+
+        public Config setTintIcon(boolean isTintIcon) {
+            this.isTintIcon = isTintIcon;
+            return this;
+        }
+
+        public Config setQueue(boolean isQueue) {
+            this.isQueue = isQueue;
+            return this;
+        }
+
+        public Config setBackground(@DrawableRes int background) {
+            this.background = background;
+            return this;
+        }
+
+        public Config setLayout(@LayoutRes int layout) {
+            this.layout = layout;
+            return this;
+        }
+
+        public Config setTextSize(int textSize) {
+            this.textSize = textSize;
+            return this;
+        }
+
+        public void confirm() {
+            EzToast.isTintIcon = isTintIcon;
+            EzToast.isQueue = isQueue;
+            EzToast.background = background;
+            EzToast.layout = layout;
+            EzToast.textSize = textSize;
+        }
+
+        public void reset() {
+            isTintIcon = true;
+            isQueue = true;
+            background = R.drawable.shape_toast_background;
+            layout = R.layout.layout_toast;
+            textSize = DEFAULT_TEXT_SIZE;
+            confirm();
+        }
     }
 }

@@ -13,8 +13,8 @@
 
     <ImageView
         android:id="@+id/img_icon"
-        android:layout_width="15dp"
-        android:layout_height="15dp"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
         android:layout_marginRight="5dp"
         android:src="@drawable/icon_warn" />
 
@@ -22,9 +22,9 @@
         android:id="@+id/tv_message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="测试abcA"
+        android:text="mssage"
+        android:textSize="15sp"
         android:textColor="#000000"
-        android:textSize="60sp"
         android:typeface="serif" />
 
 </LinearLayout>
