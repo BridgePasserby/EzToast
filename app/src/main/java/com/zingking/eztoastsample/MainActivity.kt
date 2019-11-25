@@ -3,9 +3,9 @@ package com.zingking.eztoastsample
 import android.content.Context
 import android.graphics.PixelFormat
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import android.view.WindowManager
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
 import com.zingking.eztoast.EzToast
 import es.dmoral.toasty.Toasty
 import kotlinx.android.synthetic.main.activity_main.*
